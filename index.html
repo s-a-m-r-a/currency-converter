@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Currency Converter</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <header>
+        <img src="./img/converter-logo.svg" alt="converter logo">
+        <div class="burger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="nav">
+            <a>BANK</a>
+            <a>BUSINESS</a>
+            <a>INVESTMENTS</a>
+            <a>INSURANCE</a>
+            <a>MOBILE</a>
+            <a>JOURNEY</a>
+            <a>ENTERTAINMENT</a>
+        </div>
+        <button class="login">SIGN IN</button>
+    </header>
+    <main>
+        <section class="container">
+            <h1>Online currency converter</h1>
+            <div class="converters">
+                <div class="converter">
+                    <div class="converter1">
+                        <p>I currently have</p>
+                    </div>
+                    <div class="currency1">
+                        <button class="left-rub">RUB</button>
+                        <button class="left-usd">USD</button>
+                        <button class="left-eur">EUR</button>
+                        <button class="left-gbp">GBP</button>
+                    </div>
+                    <div class="input">
+                        <input type="text" id="amount-left">
+                        <p class="rate1"></p>
+                    </div>
+                </div>
+                <div class="converter">
+                    <div class="converter2">
+                        <p>I want to get</p>
+                    </div>
+                    <div class="currency2">
+                        <button class="right-rub">RUB</button>
+                        <button class="right-usd">USD</button>
+                        <button class="right-eur">EUR</button>
+                        <button class="right-gbp">GBP</button>
+                    </div>
+                    <div class="input">
+                        <input type="text" id="amount-right">
+                        <p class="rate2"></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <script src="./script.js"></script>
+</body>
+</html>
