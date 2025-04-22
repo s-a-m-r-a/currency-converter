@@ -1,0 +1,358 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+header {
+    display: flex;
+    height: 60px;
+    align-items: center;
+    justify-content: space-evenly;
+    background-color: #F5F5F6;
+}
+
+.nav {
+    display: flex;
+    height: 100%;
+    width: 60%;
+    justify-content: space-evenly;
+    align-items: center;
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 13px;
+    letter-spacing: 0.06em;
+    text-align: left;
+    color: #959BA4;
+
+}
+
+.nav a:first-child {
+    color: #000;
+}
+
+img {
+    width: 89px;
+    height: 23px;
+}
+
+.login {
+    border: none;
+    width: 58px;
+    height: 33px;
+    font-size: 11px;
+    line-height: 13px;
+    letter-spacing: 0.06em;
+    text-align: center;
+    background-color: #FFFFFF;
+    border-radius: 4px;
+}
+
+main {
+    display: flex;
+    justify-content: center;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: white;
+    margin: 80px 0;
+    width: 50%;
+}
+
+h1 {
+    width: 100%;
+    font-size: 36px;
+    font-weight: 700;
+    line-height: 32px;
+    text-align: left;
+}
+
+.converters {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 33px;
+}
+
+.converter1,
+.converter2 {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 28px;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 14px;
+    text-align: left;
+    color: #9F9F9F;
+}
+
+.converter .currency1,
+.converter .currency2{
+    display: flex;
+    max-width: 259px;
+    height: 30px;
+}
+
+.converter .default {
+    background-color: #833AE0;
+    color: white;
+    border-color: #833AE0;
+}
+
+.currency1 button,
+.currency2 button {
+    height: 100%;
+    width: 25%;
+    background-color: white;
+    border: 1px solid #E5E5E5;
+    color: #C6C6C6;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: normal;
+    text-align: center;
+    cursor: pointer;
+}
+
+.right-rub,
+.left-rub
+ {
+    border-radius: 3px 0px 0px 3px;
+}
+
+.right-gbp,
+.left-gbp {
+    border-radius: 0px 3px 3px 0px;
+}
+
+.input {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; 
+    padding: 10px 15px;
+    margin: 20px 0px;
+    max-width: 259px;
+    height: 102px;
+    border-radius: 3px;
+    border: 1px solid #E5E5E5;
+}
+
+input {
+    border: none;
+    width: 100%;
+    font-size: 36px;
+    font-weight: 700;
+    line-height: 42px;
+    text-align: left;
+}
+
+.input p {
+    color: #C6C6C6;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 14px;
+    text-align: left;
+}
+
+.input input:focus {
+    outline: none;
+}
+
+.rate1 {
+    color: #C6C6C6;
+    margin-bottom: 10px;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 14px;
+    text-align: left;
+}
+.rate2 {
+    color: #C6C6C6;
+    margin-bottom: 10px;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 14px;
+    text-align: left;
+}
+
+@media (max-width: 767px) and (min-width: 320px) {
+    h1 {
+      margin-bottom: 5px;
+    }
+    header {
+        position: sticky;
+        top: 0;
+        justify-content: space-between;
+        padding: 0 15px;
+    }
+    .nav {
+        display: none;
+        flex-direction: column;
+        position: fixed;
+        top: 50px;
+        right: 0;
+        background-color: #FFFFFF;
+        width: 60vw;
+        height: 70vh;
+        border: 1px solid #E5E5E5;
+        border-radius: 8px;
+    }
+    .nav.active {
+        display: flex;
+    }
+    .nav a {
+        padding: 5px 20px;
+        text-align: left;
+        color: #959BA4;
+        font-size: 12px;
+        border-bottom: 1px solid #E5E5E5;
+    }
+    .burger {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 40px;
+        height: 40px;
+        cursor: pointer;
+    }
+    .burger span {
+        display: block;
+        width: 25px;
+        height: 3px;
+        background-color: #833AE0;
+        margin: 4px 0;
+        transition: 0.3s ease;
+    }
+    .burger.active span:nth-child(1) {
+        transform: translateY(7px) rotate(45deg);
+    }
+    .burger.active span:nth-child(2) {
+        opacity: 0;
+    }
+    .burger.active span:nth-child(3) {
+        transform: translateY(-7px) rotate(-45deg);
+    }
+    .login {
+        display: none;
+    }
+    .container {
+        width: 90%;
+        margin: 20px 0;
+    }
+    .converters {
+        flex-direction: column;
+        align-items: center;
+    }
+    .converter {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+}
+
+.offline-notification {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #b1251b; 
+    color: white;
+    padding: 12px;
+    border-radius: 5px;
+    font-size: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 100;
+    opacity: 0;
+    visibility: hidden;
+    animation: slideIn 0.5s forwards, fadeOut 3.5s 3s forwards; 
+}
+@media (min-width: 768px) and (max-width: 1024px) {
+    body{
+        overflow: hidden;
+    }
+    header {
+        width: 100vw;
+        justify-content: space-between;
+        padding: 0 20px;
+    }
+    .burger {
+        display: none; 
+    }
+    .nav {
+        display: flex;
+        width: auto;
+    }
+    .nav a {
+        padding: 0 8px;
+        font-size: 11.5px;
+        color: #959BA4;
+        border: none;
+    }
+    .login {
+        display: flex;
+        align-items: center;
+        width: auto;
+        height: 35px;
+        padding: 0 8px;
+        font-size: 12px;
+    }
+    main {
+        margin-top: 30px;
+    }
+    .container {
+        width: 70%; 
+        margin: 40px 0;
+    }
+    .converters {
+        display: flex;
+        flex-direction: row; 
+        justify-content: space-between;
+        gap: 20px;
+    }
+    .converter {
+        width: 48%; 
+    }
+    .currency1 button,
+    .currency2 button {
+        font-size: 14px;
+        width: 25%; 
+    }
+    .input {
+        height: 120px;
+        padding: 15px;
+    }
+    input {
+        font-size: 28px;
+    }
+    .input a {
+        font-size: 12px;
+    }
+    .rate1, .rate2 {
+        font-size: 12px;
+    }
+}
+
+@media (min-width: 1025px) {
+    .burger {
+      display: none;
+    }
+    .nav {
+      display: flex;
+      position: static;
+      border: none;
+    }
+    .login {
+      display: inline-block;
+    }
+    .converters{
+        gap: 30px;
+    }
+  }  
