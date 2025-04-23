@@ -53,18 +53,23 @@ let lastChanged = "left";
 let exchangeRate = 1;
 
 document.getElementById("amount-left").addEventListener("input", () => {
+    if (!checkIfOnline()) return;
     lastChanged = "left";
     updateAmounts("amount-left", "amount-right", exchangeRate);
 });
 
 document.getElementById("amount-right").addEventListener("input", () => {
+    if (!checkIfOnline()) return;
     lastChanged = "right";
     updateAmounts("amount-right", "amount-left", 1 / exchangeRate);
 });
 
-
-
 const updateExchangeRates = async () => {
+    
+    if (!checkIfOnline()) {
+        showOfflineNotification();
+        return; 
+    }
     const { from, to } = defCurrencies;
     if (from === to) return;
 
