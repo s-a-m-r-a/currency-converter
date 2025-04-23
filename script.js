@@ -10,6 +10,22 @@ const checkIfOnline = () => {
     return navigator.onLine;
 };
 
+const showOfflineNotification = () => {
+    if (document.querySelector(".offline-notification")) return;
+    const notification = document.createElement("div");
+    notification.classList.add("offline-notification");
+    notification.textContent = "The site has gone offline.";
+
+    document.body.append(notification);
+};
+
+const backOnline = () => {
+    const notification = document.querySelector(".offline-notification");
+    if (notification) {
+        notification.remove();
+    }
+};
+
 const fetchRates = async (baseCurrency) => {
     if (!checkIfOnline()) {
         showOfflineNotification();
@@ -21,6 +37,7 @@ const fetchRates = async (baseCurrency) => {
                 return parsed.data;
             }
         }
+        return null;
     }
     try {
         const response = await fetch(`${apiUrl}/${baseCurrency}?apikey=${apiKey}`);
@@ -28,7 +45,7 @@ const fetchRates = async (baseCurrency) => {
         const data = await response.json();
         localStorage.setItem(
             `rates_${baseCurrency}`,
-            JSON.stringify({ data: data, timestamp: new Date().getTime() })
+            JSON.stringify({ rates: data.rates, timestamp: new Date().getTime() })
         );
         return data;
     } catch (error) {
@@ -37,17 +54,12 @@ const fetchRates = async (baseCurrency) => {
     }
 };
 
-const showOfflineNotification = () => {
-    if (document.querySelector(".offline-notification")) return;
-    const notification = document.createElement("div");
-    notification.classList.add("offline-notification");
-    notification.textContent = "The site has gone offline.";
-
-    document.body.append(notification);
-
-    setTimeout(() => {
-        notification.remove();
-    }, 5000);
+const updateAmounts = (fromInputId, toInputId, rate) => {
+    const initInput = document.getElementById(fromInputId).value;
+    const filteredInput = initInput.replace(/,/g, '.');
+    const amountFrom = parseFloat(filteredInput) || 0;
+    const convertedAmount = (amountFrom * rate).toFixed(5);
+    document.getElementById(toInputId).value = convertedAmount > 0 ? convertedAmount : "";
 };
 
 const updateExchangeRates = async () => {
@@ -56,35 +68,29 @@ const updateExchangeRates = async () => {
     const data = await fetchRates(from);
     if (data && data.rates) {
         const exchangeRate = data.rates[to];
-        document.querySelector(".rate1").textContent = `1 ${from} = ${exchangeRate.toFixed(4)} ${to}`;
-        document.querySelector(".rate2").textContent = `1 ${to} = ${(1 / exchangeRate).toFixed(4)} ${from}`;
+        console.log(data.rates);
+        document.querySelector(".rate1").textContent = `1 ${from} = ${exchangeRate.toFixed(5)} ${to}`;
+        document.querySelector(".rate2").textContent = `1 ${to} = ${(1 / exchangeRate).toFixed(5)} ${from}`;
+        
         updateAmounts("amount-left", "amount-right", exchangeRate);
     }
 };
-
-const updateAmounts = (fromInputId, toInputId, rate) => {
-    const rawInput = document.getElementById(fromInputId).value;
-    const filteredInput = rawInput.replace(/,/g, '.');
-    const amountFrom = parseFloat(filteredInput) || 0;
-    const convertedAmount = (amountFrom * rate).toFixed(2);
-    document.getElementById(toInputId).value = convertedAmount > 0 ? convertedAmount : "";
-};
-
 const setDefAmount = () => {
     document.getElementById("amount-left").value = "5000";
 };
 
-const inputEvents = (fromInputId, toInputId, rateSelector) => {
+const inputEvents = (fromInputId, toInputId, ratifier) => {
     document.getElementById(fromInputId).addEventListener("input", (e) => {
-        let val = e.target.value.replace(/,/g, '.').replace(/[^0-9.]/g, '');
-        const parts = val.split('.');
-        if (parts.length > 2) {
-            val = parts[0] + '.' + parts.slice(1).join('');
+       
+        let input = e.target.value.replace(/,/g, '.').replace(/[^0-9.]/g, '');
+         if (!checkIfOnline()) return;
+        const element = input.split('.');
+        if (element.length > 2) {
+            input = element[0] + '.' + element.slice(1).join('');
         }
-
-        e.target.value = val;
+        e.target.value = input;
         
-        const rate = parseFloat(document.querySelector(rateSelector).textContent.split("=")[1]) || 1;
+        const rate = parseFloat(document.querySelector(ratifier).textContent.split("=")[1]) || 1;
         updateAmounts(fromInputId, toInputId, rate);
     });
 };
@@ -121,10 +127,22 @@ const btnEvents = () => {
 };
 
 const init = () => {
+    if(!checkIfOnline()) {
+        showOfflineNotification();
+        return;
+    }
     document.querySelector(".currency1 button.left-rub").classList.add("default");
     document.querySelector(".currency2 button.right-usd").classList.add("default");
     setDefAmount();
     updateExchangeRates();
+    window.addEventListener('online', () => {
+        backOnline();
+        updateExchangeRates();
+    });
+
+    window.addEventListener('offline', () => {
+        showOfflineNotification();
+    });
     btnEvents();
        
     inputEvents("amount-left", "amount-right", ".rate1");

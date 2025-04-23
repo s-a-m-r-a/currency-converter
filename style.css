@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
-
+/* Default styles for Desktop devices*/
 * {
     margin: 0;
     padding: 0;
@@ -182,9 +182,11 @@ input {
     line-height: 14px;
     text-align: left;
 }
+
+/* Lightweight animation for offline notification */
 @keyframes slideIn {
     from {
-        transform: translateX(-50%) translateY(20px);
+        transform: translateX(-50%) translateY(30px);
         opacity: 0;
         visibility: hidden;
     }
@@ -195,29 +197,24 @@ input {
     }
 }
 
-@keyframes fadeOut {
-    to {
-        opacity: 0;
-        visibility: hidden;
-    }
-}
-
 .offline-notification {
     position: fixed;
-    bottom: 20px;
+    bottom: 30px;
     left: 50%;
     transform: translateX(-50%);
     background-color: #b1251b; 
     color: white;
-    padding: 12px;
+    padding: 14px;
+    white-space: nowrap;
     border-radius: 5px;
-    font-size: 15px;
+    font-size: 16px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     z-index: 100;
-    opacity: 0;
-    visibility: hidden;
-    animation: slideIn 0.5s forwards, fadeOut 3.5s 3s forwards; 
+    opacity: 1;
+    visibility: visible;
+    animation: slideIn 0.5s forwards;
 }
+/* Responsiveness for mobile devices */
 @media (max-width: 767px) and (min-width: 320px) {
     h1 {
       margin-bottom: 5px;
@@ -333,29 +330,28 @@ input {
     }
     .converters {
         display: flex;
-        flex-direction: row; 
         justify-content: space-between;
         gap: 20px;
     }
     .converter {
-        width: 48%; 
+        width: 50%; 
+    }
+    .converter1 p,
+    .converter2 p {
+        font-size: 14px;
     }
     .currency1 button,
     .currency2 button {
-        font-size: 14px;
-        width: 25%; 
+        font-size: 13px;
     }
     .input {
         height: 120px;
         padding: 15px;
     }
     input {
-        font-size: 28px;
+        font-size: 30px;
     }
-    .input a {
-        font-size: 12px;
-    }
-    .rate1, .rate2 {
+    input p {
         font-size: 12px;
     }
 }
@@ -364,14 +360,7 @@ input {
     .burger {
       display: none;
     }
-    .nav {
-      display: flex;
-      position: static;
-      border: none;
-    }
-    .login {
-      display: inline-block;
-    }
+   
     .converters{
         gap: 30px;
     }
