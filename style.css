@@ -115,6 +115,7 @@ h1 {
     background-color: white;
     border: 1px solid #E5E5E5;
     color: #C6C6C6;
+    transition: ease-in-out 0.3s;
     font-size: 12px;
     font-weight: 400;
     line-height: normal;

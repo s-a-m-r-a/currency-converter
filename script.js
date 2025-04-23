@@ -29,24 +29,12 @@ const backOnline = () => {
 const fetchRates = async (baseCurrency) => {
     if (!checkIfOnline()) {
         showOfflineNotification();
-        const cachedData = localStorage.getItem(`rates_${baseCurrency}`);
-        const currentTime = new Date().getTime();
-        if (cachedData) {
-            const parsed = JSON.parse(cachedData);
-            if (currentTime - parsed.timestamp < 3600000) {
-                return parsed.data;
-            }
-        }
         return null;
     }
     try {
         const response = await fetch(`${apiUrl}/${baseCurrency}?apikey=${apiKey}`);
         if (!response.ok) throw new Error("Failed to fetch exchange rates");
         const data = await response.json();
-        localStorage.setItem(
-            `rates_${baseCurrency}`,
-            JSON.stringify({ rates: data.rates, timestamp: new Date().getTime() })
-        );
         return data;
     } catch (error) {
         console.error("Error fetching rates:", error);
@@ -61,20 +49,41 @@ const updateAmounts = (fromInputId, toInputId, rate) => {
     const convertedAmount = (amountFrom * rate).toFixed(5);
     document.getElementById(toInputId).value = convertedAmount > 0 ? convertedAmount : "";
 };
+let lastChanged = "left";
+let exchangeRate = 1;
+
+document.getElementById("amount-left").addEventListener("input", () => {
+    lastChanged = "left";
+    updateAmounts("amount-left", "amount-right", exchangeRate);
+});
+
+document.getElementById("amount-right").addEventListener("input", () => {
+    lastChanged = "right";
+    updateAmounts("amount-right", "amount-left", 1 / exchangeRate);
+});
+
+
 
 const updateExchangeRates = async () => {
     const { from, to } = defCurrencies;
     if (from === to) return;
+
     const data = await fetchRates(from);
     if (data && data.rates) {
-        const exchangeRate = data.rates[to];
-        console.log(data.rates);
+        exchangeRate = data.rates[to];
+        const reverseRate = 1 / exchangeRate;
+
         document.querySelector(".rate1").textContent = `1 ${from} = ${exchangeRate.toFixed(5)} ${to}`;
-        document.querySelector(".rate2").textContent = `1 ${to} = ${(1 / exchangeRate).toFixed(5)} ${from}`;
-        
-        updateAmounts("amount-left", "amount-right", exchangeRate);
+        document.querySelector(".rate2").textContent = `1 ${to} = ${reverseRate.toFixed(5)} ${from}`;
+
+        if (lastChanged === "right") {
+            updateAmounts("amount-right", "amount-left", reverseRate);
+        } else {
+            updateAmounts("amount-left", "amount-right", exchangeRate);
+        }
     }
 };
+
 const setDefAmount = () => {
     document.getElementById("amount-left").value = "5000";
 };
